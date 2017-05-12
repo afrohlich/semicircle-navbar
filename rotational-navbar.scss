@@ -1,0 +1,79 @@
+
+/// Mixin to place items on a circle
+/// @author Hugo Giraudel
+/// @author Ana Tudor
+/// @author Arthur Frohlich
+/// @param {Integer} $item-count - Number of items on the circle
+/// @param {Length} $circle-size - Large circle size
+/// @param {Length} $item-size - Single item size
+/// @param {String} $corner - Which corner should the nav be placed in
+
+@mixin arc-nav($item-count, $circle-radius, $item-size) {
+  position: fixed;
+  bottom: ($item-size * .6);
+  right: ($item-size * .6);
+  list-style: none;       
+  
+  > .circle {
+    display: block;
+    position: absolute;
+    top:  50%; 
+    left: 50%;
+    margin: -($item-size / 2);
+    padding: 0px;
+    width: $item-size;
+    height: $item-size;
+
+    // This section creates circle buttons for the nav
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    background: white //#cdd7de;
+
+    // This defines the font appearance
+    font-size: 14px;
+    color: #fff;
+    line-height: $item-size;
+    text-align: center;
+  
+    $angle: (90 / ($item-count - 1));
+    $rot: 180;
+
+    @for $i from 1 through $item-count {
+      &:nth-of-type(#{$i}) {
+        transform: 
+          rotate($rot * 1deg) 
+          translate($circle-radius) 
+          rotate($rot * -1deg);
+      }
+
+      $rot: $rot + $angle;
+    }
+  }
+
+  .circle:hover {
+        border-color: darkred;
+  }
+
+  > .spoke {
+    position: absolute;
+    width: 10em;
+
+    $angle: (90 / ($item-count - 1));
+    $rot: 180;
+
+    @for $i from 1 through $item-count {
+      &:nth-of-type(#{$i}) {
+        
+        transform-origin: 0 0;
+        transform: rotate($rot * -1deg);
+      }
+
+      $rot: $rot - $angle;
+    }
+  }
+
+}
+
+
