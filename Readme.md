@@ -6,7 +6,7 @@ Mixin
 ``` scss
   @import "semicircle-navbar";
   .rot-nav{
-    @include arc-nav($item-count: 4, $circle-radius: 11em, $item-size: 5em, $corner: "bottom-right");
+    @include arc-nav($item-count: 3, $circle-radius: 11em, $item-size: 5em, $corner: "bottom-right");
   }
 ```
 HTML
@@ -15,5 +15,6 @@ HTML
         <hr class="spoke"><hr class="spoke">
         <div class="circle"><a href="#">Blog</a></div>
         <div class="circle"><a href="#">Projects</a></div>
+        <div class="circle"><a href="#">Photos</a></div>
      </nav>
 ```
