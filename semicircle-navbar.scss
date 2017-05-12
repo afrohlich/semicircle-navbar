@@ -1,4 +1,3 @@
-
 /// Mixin to place items on a circle
 /// @author Hugo Giraudel
 /// @author Ana Tudor
@@ -8,12 +7,24 @@
 /// @param {Length} $item-size - Single item size
 /// @param {String} $corner - Which corner should the nav be placed in
 
-@mixin arc-nav($item-count, $circle-radius, $item-size) {
+@mixin arc-nav($item-count, $circle-radius, $item-size , $corner: "top-left") {
   position: fixed;
-  bottom: ($item-size * .6);
-  right: ($item-size * .6);
-  list-style: none;       
-  
+  list-style: none;
+
+  @if $corner == 'top-left'{
+    top: ($item-size * .6);
+    left: ($item-size * .6);
+  } @else if $corner == 'top-right'{
+    top: ($item-size * .6);
+    right: ($item-size * .6);
+  } @else if $corner == 'bottom-right'{
+    bottom: ($item-size * .6);
+    right: ($item-size * .6);
+  } @else if $corner == 'bottom-left'{
+    bottom: ($item-size * .6);
+    left: ($item-size * .6);
+  }
+
   > .circle {
     display: block;
     position: absolute;
@@ -27,9 +38,10 @@
     // This section creates circle buttons for the nav
     border-radius: 50%;
     border-style: solid;
-    border-width: 3px;
+    border-width: 4px;
     border-color: black;
-    background: white //#cdd7de;
+    background: white;
+//#cdd7de;
 
     // This defines the font appearance
     font-size: 14px;
@@ -37,8 +49,20 @@
     line-height: $item-size;
     text-align: center;
   
-    $angle: (90 / ($item-count - 1));
-    $rot: 180;
+    $start-rot: 0;
+    @if $corner == 'top-left'{
+      $start-rot: 0;
+    } @else if $corner == 'top-right'{
+      $start-rot: 90; 
+    } @else if $corner == 'bottom-right'{
+      $start-rot: 180;
+    } @else if $corner == 'bottom-left'{
+      $start-rot: 270;
+    }
+    
+ 
+    $rot: $start-rot;
+    $sep-angle: (90 / ($item-count - 1));
 
     @for $i from 1 through $item-count {
       &:nth-of-type(#{$i}) {
@@ -48,7 +72,7 @@
           rotate($rot * -1deg);
       }
 
-      $rot: $rot + $angle;
+      $rot: $rot + $sep-angle;
     }
   }
 
